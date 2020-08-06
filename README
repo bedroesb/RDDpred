@@ -1,0 +1,146 @@
+--------------------------------------------------------------------------------
+README: RDDpred_v1.1 (Edited: 27th May, 2016, by Min-su Kim)
+
+v1.1: Update Log
+- Improving Positive/Negative Dataset Extractom Algorithm, which was implemented as a low-scability approach in v1.0.
+
+--------------------------------------------------------------------------------
+RDDpred is a prediction tool for distinguishing authentic RNA-editing events from RNA-seq, which recognizes computational artefacts caused by mis-alignments.
+
+I.  Installation
+
+II. Usage
+
+III. Input/Output 
+
+IV. Troubleshooting
+
+V. Contact
+
+--------------------------------------------------------------------------------
+I. Installation
+--------------------------------------------------------------------------------
+A. RDDpred do not require any installation in general.
+
+B. However, in some systems, it is needed to re-compile the external packages, sucha as samtools/bcftools, and bamtools.
+
+C. We provide "run.test.sh" script, which includes a test code running with test-data.
+
+D. Thus, a user should run the script first, then solve the rising errors (SEE IV. Troubleshooting). 
+
+
+--------------------------------------------------------------------------------
+II. Usage
+--------------------------------------------------------------------------------
+A. Usage: python RDDpred.py [arguments]
+
+	Essential arguments:
+	 -rbl, --RNA_Bam_List [FILE]            List of sorted_bam. Make sure of having identical bam-headers.
+	 -rsf, --Reference_Sequence_Fasta [FILE]                Fasta file used for alignments
+	 -tdp, --Tools_Dir_Path [DIR]           Tools directory path
+	 -ops, --Out_Prefix [STR]               Prefix string for intermediate files (ex: [prefix].RDD.RawList.txt)
+	 -psl, --Positive_Sites_List [FILE]             Published true-sites (see README)
+	 -nsl, --Negative_Sites_List [FILE]             Calcualted false-sites (see README)
+
+	Optional arguments:
+	 -gsl, --Genomic_SNPs_List [FILE]               List of Genomic SNPs wanted to be excluded
+	 -pni, --Process_Num [INT]              Process numbers to use (default:1)
+	 -tml, --Train_Max_Limit [INT]          Training data size upper-limits (default:100000)
+	 -mul, --Memory_Usage_Limit [GB]                Maximum usage of memory (default:10G)
+	 -sud, --Storage_Usage_Degree [FLOAT]           EX: -sud 1 means using 1-bamfile size of storage (default:10)
+
+B. We prepared a test command line in a shell script, named “run.test.sh”.
+
+--------------------------------------------------------------------------------
+III. Input/Output
+--------------------------------------------------------------------------------
+1) Input
+
+	A. RNA_Bam_List(-rbl): A list of BAM-paths, which are considered as replicated data by RDDpred
+		ex)	TestBam.Dir/Test_1.bam
+			TestBam.Dir/Test_2.bam
+			TestBam.Dir/Test_3.bam
+			...
+
+	B. Reference_Sequence_Fasta(-rsf): Fasta of reference genome used in alignment
+
+	C. Tools_Dir_Path(-tdp): Directory for "ToolBox.Dir", which includes some external software packages
+
+	D. Positive_Sites_List(-psl): A list of pre-known sites (For hg19, we provided in "PriorData/hg19.PublicSites.txt")
+		ex)	chr10   100814530       T       C
+			chr10   100814536       T       C
+			chr10   100814559       T       C
+			...
+
+	E. Negative_Sites_list(-nsl): A list of MES-sites (For hg19, we provided in "PriorData/hg19.MES_Sites.txt")
+		ex)	chr10   100003848       A       C
+			chr10   100003849       G       A
+			chr10   100003850       A       T
+			...
+
+	F. Genomic_SNPs_List(-gsl): A list of sites which a user wants to be excluded in prediction (Optional, same format as other lists)
+
+2) Output (Not metioned outputs are trivial intermediates)
+
+	A. Argument.Log: List of arguments, given by user
+	
+	B. Step5.Results.Summary.txt: Summary of prediction
+
+	C. Prediction.ResultList.txt: List of prediction results (of each candidates)
+
+	D. RDDpred.results_report.txt: List of editing-ratio (of accepted candidates)
+
+	E. RDD.RawList.txt: List of raw candidates 
+
+	F. Predictor.Training.Log: Training result of RDDpred classifier (Including 10-fold CV)
+	
+	G. Attribute.Evaluation.Log: Evaluation result of variable importance (with InfoGain)
+
+	H. Model.Dir/: Including training data and model file of WEKA.
+
+
+--------------------------------------------------------------------------------
+IV. Troubleshooting
+--------------------------------------------------------------------------------
+To maximize reproducibility, RDDpred imports the specific version of external packages, such as, samtools/bcftools(1.2.1), bamtools(2.4.0), WEKA(3.6.2). Therefore, in some systems it can be required to re-compile the source codes of them. Thus, if you observe the listed error-messages when executing RDDpred, the following commands should be done first.
+
+A. [Error_1] Samtools is not working properly...
+	(in ToolBox.Dir)
+	rm -rf samtools-1.2/
+	tar xjf samtools-1.2.tar.bz2
+	cd samtools-1.2
+	make
+
+B. [Error_2] Bcftools is not working properly...
+	(in ToolBox.Dir)
+	rm -rf bcftools-1.2/
+	tar xjf bcftools-1.2.tar.bz2
+	cd bcftools-1.2
+	make
+
+C. [Error_3] Bamtools is not working properly...
+	(in ToolBox.Dir)
+	rm -rf bamtools-2.4.0/
+	tar xjf bamtools-2.4.0.tar.bz2
+	cd bamtools-2.4.0
+	mkdir build
+	cd build
+	cmake ..
+	make
+
+D. [Error_4] Weka is not working properly...
+	=> Make sure that your system has JVM >1.7.
+
+E. ImportError: No module named ... 
+	=> Install the python module, specified in the error messasge 
+
+--------------------------------------------------------------------------------
+V Contact
+--------------------------------------------------------------------------------
+A. If there are any other questions, please contact to us through this email: mdy89@snu.ac.kr
+
+B. Citation
+	=> Kim, Min-su, et al. BMC Genomics 2016, “RDDpred: a condition-specific RNA-editing prediction model from RNA-seq data.”
+
+
+

@@ -1,0 +1,4 @@
+# Hashes of file build rules.
+3be8b7f724c2bd6cdfd37d24e66074bb src/CMakeFiles/SharedHeaders
+f69cb52a8561fbe1ce08dc84f23ac808 src/api/CMakeFiles/APIHeaders
+f69cb52a8561fbe1ce08dc84f23ac808 src/api/CMakeFiles/AlgorithmsHeaders

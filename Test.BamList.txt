@@ -1,0 +1,10 @@
+TestBam.Dir/Test_1.bam
+TestBam.Dir/Test_2.bam
+TestBam.Dir/Test_3.bam
+TestBam.Dir/Test_4.bam
+TestBam.Dir/Test_5.bam
+TestBam.Dir/Test_6.bam
+TestBam.Dir/Test_7.bam
+TestBam.Dir/Test_8.bam
+TestBam.Dir/Test_9.bam
+TestBam.Dir/Test_10.bam

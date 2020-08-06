@@ -1,0 +1,2 @@
+PriorData/*.txt filter=lfs diff=lfs merge=lfs -text
+hg19.MES_Sites.txt filter=lfs diff=lfs merge=lfs -text
