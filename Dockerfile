@@ -14,8 +14,8 @@ ENV WRKDR=/data
 
 # WORKDIR /data
 
-RUN wget $URL/$ZIP -O $DST/$NAME \
-    && tar -xzvf $DST/$NAME -C $DST/
+# RUN wget $URL/$ZIP -O $DST/$NAME \
+#     && tar -xzvf $DST/$NAME -C $DST/
     # mv $DST/$FOLDER $WRKDR  
 RUN conda create -y -c bioconda -n tmp-env python=2.7 numpy=1.16.5 bamtools=2.5.1
 #SHELL ["source", "activate", "tmp-env"]
